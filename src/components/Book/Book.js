@@ -12,6 +12,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { useState } from 'react';
+import Bookings from '../Bookings/Bookings';
 
 
 const Book = () => {
@@ -27,16 +28,25 @@ const Book = () => {
     const handleCheckInDate = (date) => {
         const newDate = {...selectedDate};
         newDate.checkIn = date;
-        selectedDate(newDate);
+        setSelectedDate(newDate);
     };
     const handleCheckOutDate = (date) => {
         const newDate = {...selectedDate};
         newDate.checkOut = date;
-        selectedDate(newDate);
+        setSelectedDate(newDate);
     };
 
     const handleButton = () =>{
-        
+        const newBooking = {...loggedInUser, ...selectedDate};
+        fetch("http://localhost:5000/addBooking",{
+            method:"POST",
+            headers: {'Content-Type':'application/json'},
+            body:JSON.stringify(newBooking)
+        })
+        .then(res => res.json())
+        .then(data=>{
+            console.log(data)
+        })
     }
 
     return (
@@ -54,7 +64,7 @@ const Book = () => {
                         id="date-picker-inline"
                         label="Date picker inline"
                         value={selectedDate.checkIn}
-                        onChange={handleCheckOutDate}
+                        onChange={handleCheckInDate}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
@@ -66,7 +76,7 @@ const Book = () => {
                         label="Date picker dialog"
                         format="MM/dd/yyyy"
                         value={selectedDate.checkOut}
-                        onChange={handleCheckInDate}
+                        onChange={handleCheckOutDate}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
@@ -74,6 +84,7 @@ const Book = () => {
                 </Grid>
                 <Button onClick={handleButton} variant="contained" color="primary"> Book Now </Button>
             </MuiPickersUtilsProvider>
+            <Bookings></Bookings>
         </div>
     );
 };
