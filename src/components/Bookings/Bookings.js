@@ -14,7 +14,7 @@ const Bookings = () => {
         <div>
             <h4>Total booking : {booking.length}</h4>
             {
-                booking.map(book=><li>Email : {book.email} , from : {book.checkIn} , to : {book.checkOut}</li>)
+                booking.map(book=><li>Email : {book.email} , from : {(new Date(book.checkIn)).toDateString('dd/MM/yyyy')} , to : {(new Date(book.checkOut)).toDateString('dd/MM/yyyy')}</li>)
             }
         </div>
     );
