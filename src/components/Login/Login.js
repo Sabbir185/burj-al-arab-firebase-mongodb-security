@@ -35,7 +35,7 @@ const Login = () => {
           const newUserInfo = {name:displayName, email};
           setLoggedInUser(newUserInfo);
           storeAuthToken();
-          history.replace(from);
+          
         })
         .catch((error) => {
           var errorCode = error.code;
@@ -50,6 +50,7 @@ const Login = () => {
         firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
             // console.log(idToken)
             sessionStorage.setItem('token',idToken);  // maybe you also set this token useContext() to use other components :)
+            history.replace(from);
           }).catch(function(error) {
             // Handle error
           });
